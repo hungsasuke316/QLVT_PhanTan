@@ -71,7 +71,7 @@
             // 
             // ribMain
             // 
-            this.ribMain.EmptyAreaImageOptions.ImagePadding = new System.Windows.Forms.Padding(120, 111, 120, 111);
+            this.ribMain.EmptyAreaImageOptions.ImagePadding = new System.Windows.Forms.Padding(150, 139, 150, 139);
             this.ribMain.ExpandCollapseItem.Id = 0;
             this.ribMain.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.ribMain.ExpandCollapseItem,
@@ -91,10 +91,10 @@
             this.btnDDH,
             this.btnKho});
             this.ribMain.Location = new System.Drawing.Point(0, 0);
-            this.ribMain.Margin = new System.Windows.Forms.Padding(15, 12, 15, 12);
+            this.ribMain.Margin = new System.Windows.Forms.Padding(19, 15, 19, 15);
             this.ribMain.MaxItemId = 18;
             this.ribMain.Name = "ribMain";
-            this.ribMain.OptionsMenuMinWidth = 1342;
+            this.ribMain.OptionsMenuMinWidth = 1677;
             this.ribMain.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.rib_HeThong,
             this.rib_DanhMuc,
@@ -145,6 +145,7 @@
             this.btnVatTu.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnVatTu.ImageOptions.Image")));
             this.btnVatTu.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnVatTu.ImageOptions.LargeImage")));
             this.btnVatTu.Name = "btnVatTu";
+            this.btnVatTu.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnVatTu_ItemClick);
             // 
             // btnPhieuNhap
             // 
@@ -162,6 +163,7 @@
             this.btnPhieuXuat.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnPhieuXuat.ImageOptions.Image")));
             this.btnPhieuXuat.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnPhieuXuat.ImageOptions.LargeImage")));
             this.btnPhieuXuat.Name = "btnPhieuXuat";
+            this.btnPhieuXuat.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnPhieuXuat_ItemClick);
             // 
             // btnInDSNV
             // 
