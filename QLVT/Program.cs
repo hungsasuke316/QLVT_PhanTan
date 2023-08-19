@@ -19,8 +19,8 @@ namespace QLVT
 
         public static SqlConnection conn = new SqlConnection();
         public static String connstr;
-        //public static String connstr_publisher = "Data Source=DESKTOP-JJGC4CI;Initial Catalog=QLVT;Integrated Security = True";
-        public static String connstr_publisher = "Data Source=DESKTOP-436VL3E;Initial Catalog=QLVT;Integrated Security = True";
+        public static String connstr_publisher = "Data Source=DESKTOP-JJGC4CI;Initial Catalog=QLVT;Integrated Security = True";
+        //public static String connstr_publisher = "Data Source=DESKTOP-436VL3E;Initial Catalog=QLVT;Integrated Security = True";
 
         public static SqlDataReader myReader;
         public static String servername = "";
