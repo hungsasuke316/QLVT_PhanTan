@@ -367,7 +367,7 @@
             this.xrTableCell1.StylePriority.UseBorderColor = false;
             this.xrTableCell1.StylePriority.UseBorders = false;
             this.xrTableCell1.StylePriority.UseBorderWidth = false;
-            this.xrTableCell1.Text = "Maso DDH";
+            this.xrTableCell1.Text = "Mã số DDH";
             this.xrTableCell1.Weight = 0.12422722509861937D;
             // 
             // xrTableCell2
@@ -382,7 +382,7 @@
             this.xrTableCell2.StylePriority.UseBorderColor = false;
             this.xrTableCell2.StylePriority.UseBorders = false;
             this.xrTableCell2.StylePriority.UseBorderWidth = false;
-            this.xrTableCell2.Text = "Ngay";
+            this.xrTableCell2.Text = "Ngày";
             this.xrTableCell2.Weight = 0.12659822877059998D;
             // 
             // xrTableCell3
@@ -397,7 +397,7 @@
             this.xrTableCell3.StylePriority.UseBorderColor = false;
             this.xrTableCell3.StylePriority.UseBorders = false;
             this.xrTableCell3.StylePriority.UseBorderWidth = false;
-            this.xrTableCell3.Text = "Nha CC";
+            this.xrTableCell3.Text = "Nhà Cung Cấp";
             this.xrTableCell3.Weight = 0.16457701429859917D;
             // 
             // xrTableCell4
@@ -412,7 +412,7 @@
             this.xrTableCell4.StylePriority.UseBorderColor = false;
             this.xrTableCell4.StylePriority.UseBorders = false;
             this.xrTableCell4.StylePriority.UseBorderWidth = false;
-            this.xrTableCell4.Text = "HOTEN";
+            this.xrTableCell4.Text = "Họ Tên";
             this.xrTableCell4.Weight = 0.18579955992990177D;
             // 
             // xrTableCell5
@@ -427,7 +427,7 @@
             this.xrTableCell5.StylePriority.UseBorderColor = false;
             this.xrTableCell5.StylePriority.UseBorders = false;
             this.xrTableCell5.StylePriority.UseBorderWidth = false;
-            this.xrTableCell5.Text = "TENVT";
+            this.xrTableCell5.Text = "Vật tư";
             this.xrTableCell5.Weight = 0.15646320014968859D;
             // 
             // xrTableCell6
@@ -443,7 +443,7 @@
             this.xrTableCell6.StylePriority.UseBorders = false;
             this.xrTableCell6.StylePriority.UseBorderWidth = false;
             this.xrTableCell6.StylePriority.UseTextAlignment = false;
-            this.xrTableCell6.Text = "SOLUONG";
+            this.xrTableCell6.Text = "Số lượng";
             this.xrTableCell6.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
             this.xrTableCell6.Weight = 0.12193570715247615D;
             // 
@@ -460,7 +460,7 @@
             this.xrTableCell7.StylePriority.UseBorders = false;
             this.xrTableCell7.StylePriority.UseBorderWidth = false;
             this.xrTableCell7.StylePriority.UseTextAlignment = false;
-            this.xrTableCell7.Text = "DONGIA";
+            this.xrTableCell7.Text = "Đơn giá";
             this.xrTableCell7.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleRight;
             this.xrTableCell7.Weight = 0.11886049744194187D;
             // 
