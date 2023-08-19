@@ -57,7 +57,7 @@
             this.gcChonCTDDH.Location = new System.Drawing.Point(0, 0);
             this.gcChonCTDDH.MainView = this.gridView1;
             this.gcChonCTDDH.Name = "gcChonCTDDH";
-            this.gcChonCTDDH.Size = new System.Drawing.Size(800, 220);
+            this.gcChonCTDDH.Size = new System.Drawing.Size(840, 251);
             this.gcChonCTDDH.TabIndex = 1;
             this.gcChonCTDDH.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -141,7 +141,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(840, 464);
             this.Controls.Add(this.btnThoat);
             this.Controls.Add(this.btnChon);
             this.Controls.Add(this.gcChonCTDDH);

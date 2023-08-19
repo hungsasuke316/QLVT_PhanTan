@@ -147,7 +147,13 @@ namespace QLVT
 
         private void btnHieuChinh_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            vitri = bdsNV.Position;            
+            vitri = bdsNV.Position;
+            bool trangThaiXoa = (bool)((DataRowView)bdsNV[vitri])["TrangThaiXoa"];
+            if (trangThaiXoa == true)
+            {
+                MessageBox.Show("Nhân viên này không có ở chi nhánh này. Không thể hiệu chỉnh.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             panelNhapLieuNV.Enabled = true;
             txtMANV.Enabled = false;
@@ -442,9 +448,7 @@ namespace QLVT
 
                 this.phieuXuatTableAdapter.Connection.ConnectionString = Program.connstr;
                 this.phieuXuatTableAdapter.Fill(this.DS.PhieuXuat);
-                /*Tu dong lay maChiNhanh hien tai - phuc vu cho phan btnTHEM*/
-                /*Cho dong nay chay thi bi loi*/
-                //maChiNhanh = ((DataRowView)bdsNhanVien[0])["MACN"].ToString().Trim();
+                
             }
         }
 
@@ -460,8 +464,8 @@ namespace QLVT
             String maChiNhanhMoi = "";
             int viTriHienTai = bdsNV.Position;
             bool trangThaiXoa = (bool)((DataRowView)bdsNV[viTriHienTai])["TrangThaiXoa"];
-            string maNhanVien = ((DataRowView)(bdsNV[viTriHienTai]))["MANV"].ToString();
-            string maChiNhanhCu = ((DataRowView)(bdsNV[viTriHienTai]))["MACN"].ToString();
+            string maNhanVien = ((DataRowView)(bdsNV[viTriHienTai]))["MANV"].ToString().Trim();
+            string maChiNhanhCu = ((DataRowView)(bdsNV[viTriHienTai]))["MACN"].ToString().Trim();
 
             DialogResult dialogResult = MessageBox.Show("Bạn có muốn chuyển nhân viên này đi ?", "Thông báo", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 
@@ -498,6 +502,10 @@ namespace QLVT
                         return;/*khong co ket qua tra ve thi ket thuc luon*/
                     }
                     MessageBox.Show("Chuyển chi nhánh thành công", "thông báo", MessageBoxButtons.OK);
+                    this.nhanVienTableAdapter.Connection.ConnectionString = Program.connstr;
+                    this.nhanVienTableAdapter.Fill(this.DS.NhanVien);
+                    bdsNV.Position = viTriHienTai;
+                    
 
                 }
                 catch (Exception ex)
@@ -507,6 +515,7 @@ namespace QLVT
                     Console.WriteLine(ex.Message);
                     return;
                 }
+                Program.myReader.Close();
                 this.nhanVienTableAdapter.Update(this.DS.NhanVien);
             }
                    
