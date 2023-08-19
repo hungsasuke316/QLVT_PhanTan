@@ -398,5 +398,5 @@ FodyWeavers.xsd
 *.sln.iml
 
 # ignore .csproj
-*.csproj
+QLVT/QLVT.csproj
 
