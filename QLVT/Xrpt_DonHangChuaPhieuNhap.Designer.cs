@@ -105,11 +105,17 @@
             // 
             // lblTieuDe
             // 
+            this.lblTieuDe.Font = new DevExpress.Drawing.DXFont("Times New Roman", 16F);
+            this.lblTieuDe.ForeColor = System.Drawing.Color.Red;
             this.lblTieuDe.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
             this.lblTieuDe.Name = "lblTieuDe";
             this.lblTieuDe.SizeF = new System.Drawing.SizeF(650F, 24.84182F);
             this.lblTieuDe.StyleName = "Title";
+            this.lblTieuDe.StylePriority.UseFont = false;
+            this.lblTieuDe.StylePriority.UseForeColor = false;
+            this.lblTieuDe.StylePriority.UseTextAlignment = false;
             this.lblTieuDe.Text = "ĐƠN HÀNG KHÔNG PHIẾU NHẬP ...";
+            this.lblTieuDe.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
             // 
             // Detail
             // 

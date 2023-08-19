@@ -12,26 +12,57 @@ namespace QLVT
 {
     public partial class frmChonCTDDH : Form
     {
-        public frmChonCTDDH()
+        private DataTable selectedDataTable;
+        public frmChonCTDDH(DataTable dataTable)
         {
             InitializeComponent();
+            selectedDataTable = dataTable;
         }
 
-        private void cTDDHBindingNavigatorSaveItem_Click(object sender, EventArgs e)
-        {
-            this.Validate();
-            this.bds_CT_DDH.EndEdit();
-            this.tableAdapterManager.UpdateAll(this.DS);
-
-        }
+        
 
         private void frmChonCTDDH_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'dS.CTDDH' table. You can move, or remove it, as needed.
+                        
             DS.EnforceConstraints = false;
-            this.CTDDHTableAdapter.Connection.ConnectionString = Program.connstr;
-            this.CTDDHTableAdapter.Fill(this.DS.CTDDH);
 
+            this.vattuTableAdapter.Connection.ConnectionString = Program.connstr;
+            this.vattuTableAdapter.Fill(this.DS.Vattu);
+
+            gcChonCTDDH.DataSource = selectedDataTable;
+                        
+        }
+
+        private void btnChon_Click(object sender, EventArgs e)
+        {
+            foreach (DataRow drv in selectedDataTable.Rows)
+            {
+                string soLuong = drv["SOLUONG"].ToString().Trim();
+                string donGia = drv["DONGIA"].ToString().Trim();
+                string maVT = drv["MAVT"].ToString().Trim();
+
+                DataView vatTuDataView = (DataView)bds_Vattu.List;
+                vatTuDataView.RowFilter = $"MAVT = '{maVT}'";
+
+                if (vatTuDataView.Count > 0)
+                {
+                    Program.chonTenVT = vatTuDataView[0]["TENVT"].ToString();
+                }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy tên vật tư với mã vật tư hiện tại", "Thông báo", MessageBoxButtons.OK);
+                }
+
+                Program.chonMAVT = maVT;
+                Program.chonSoLuong = soLuong;
+                Program.chonDonGia = donGia;
+                this.Close();
+            }
+        }
+
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            this.Dispose();
         }
     }
 }

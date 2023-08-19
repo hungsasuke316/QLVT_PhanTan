@@ -51,7 +51,7 @@ namespace QLVT
 
         private void frmDonDatHang_Load(object sender, EventArgs e)
         {
-                        
+            
             DS.EnforceConstraints = false;
 
             this.nhanVienTableAdapter.Connection.ConnectionString = Program.connstr;
@@ -72,7 +72,10 @@ namespace QLVT
             this.CTDDHTableAdapter.Connection.ConnectionString = Program.connstr;
             this.CTDDHTableAdapter.Fill(this.DS.CTDDH);
 
-           
+            this.CTPNTableAdapter.Connection.ConnectionString = Program.connstr;
+            this.CTPNTableAdapter.Fill(this.DS.CTPN);
+
+
             panelNhapDDH.Enabled = panelNhapCTDH.Enabled = false;
 
             
@@ -185,7 +188,7 @@ namespace QLVT
             {
                 if (bds_CT_DDH.Current != null)
                 {
-                    //bds_CT_DDH.RemoveCurrent();                    
+                    bds_CT_DDH.RemoveCurrent();                    
                 }
                 contextDangThemMoi = false;
                 bds_CT_DDH.Position = vitri;
@@ -295,13 +298,16 @@ namespace QLVT
                 foreach (DataRowView rowView in bds_CT_DDH)
                 {
                     DataRow row = rowView.Row;
-                    string mavt = row["MAVT"].ToString();
-
-                    if (mavt == txtMAVT.Text)
+                    string maSoDDH = row["MasoDDH"].ToString().Trim();
+                    string mavt = row["MAVT"].ToString().Trim();
+                    if (maSoDDH == txtMaSoDDH_CTDDH.Text)
                     {
-                        MessageBox.Show($"Vật tư mã {txtMAVT.Text} đã có trong chi tiết đơn đặt hàng.");
-                        return false;
-                    }
+                        if (mavt == txtMAVT.Text)
+                        {
+                            MessageBox.Show($"Vật tư mã {txtMAVT.Text} đã có trong chi tiết đơn đặt hàng.");
+                            return false;
+                        }
+                    }                    
                 }
 
             }
@@ -464,7 +470,7 @@ namespace QLVT
 
         private void contextThem_Click(object sender, EventArgs e)
         {
-            
+            gcCT_DDH.Focus();
             vitri = bds_CT_DDH.Position;
             panelNhapCTDH.Enabled = true;
             bds_CT_DDH.AddNew();
@@ -492,6 +498,16 @@ namespace QLVT
 
         private void contextXoa_Click(object sender, EventArgs e)
         {
+            if (bds_CT_DDH.Count == 0)
+            {
+                MessageBox.Show("Không có chi tiết đơn đặt hàng để xóa", "Thông báo", MessageBoxButtons.OK);
+                return;
+            }    
+            if (bds_CTPN.Count > 0)
+            {
+                MessageBox.Show("Không thể xóa chi tiết đơn đặt hàng này vì có chi tiết phiếu nhập", "Thông báo", MessageBoxButtons.OK);
+                return;                
+            }
             if (MessageBox.Show("Bạn có thật sự muốn xóa chi tiết đơn đặt hàng này không ?? ", "Xác nhận", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 
@@ -573,25 +589,28 @@ namespace QLVT
         private void txtMANV_EditValueChanged(object sender, EventArgs e)
         {
             DataRowView drv = ((DataRowView)(bds_DDH.Current));
-            string maNhanVien = drv["MANV"].ToString().Trim();
-            if (!string.IsNullOrEmpty(maNhanVien))
+            if (drv != null)
             {
-                DataView nhanVienDataView = (DataView)bdsNV.List;
-                nhanVienDataView.RowFilter = $"MANV = '{maNhanVien}'";
-
-                if (nhanVienDataView.Count > 0)
+                string maNhanVien = drv["MANV"].ToString().Trim();
+                if (!string.IsNullOrEmpty(maNhanVien))
                 {
+                    DataView nhanVienDataView = (DataView)bdsNV.List;
+                    nhanVienDataView.RowFilter = $"MANV = '{maNhanVien}'";
 
-                    string ho = nhanVienDataView[0]["HO"].ToString();
-                    string ten = nhanVienDataView[0]["TEN"].ToString();
-                    string hoTen = ho + " " + ten;
-                    txtHOTEN.Text = hoTen;
+                    if (nhanVienDataView.Count > 0)
+                    {
 
-                }
-                else
-                {
-                    MessageBox.Show("Không tìm thấy họ tên với mã nhân viên hiện tại", "Thông báo", MessageBoxButtons.OK);
-                    return;
+                        string ho = nhanVienDataView[0]["HO"].ToString();
+                        string ten = nhanVienDataView[0]["TEN"].ToString();
+                        string hoTen = ho + " " + ten;
+                        txtHOTEN.Text = hoTen;
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Không tìm thấy họ tên với mã nhân viên hiện tại", "Thông báo", MessageBoxButtons.OK);
+                        return;
+                    }
                 }
             }
         }

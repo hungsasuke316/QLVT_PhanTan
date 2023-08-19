@@ -197,14 +197,14 @@ namespace QLVT
             bds_CTPN.AddNew();
             contextDangThemMoi = true;
 
-            //DataRowView drv = (DataRowView)bds_PN[bds_PN.Position];
-            //String maNhanVien = drv["MANV"].ToString();
-            //if (Program.username != maNhanVien)
-            //{
-            //    MessageBox.Show("Bạn không thêm chi tiết phiếu nhập trên phiếu không phải do mình tạo", "Thông báo", MessageBoxButtons.OK);
-            //    bds_CTPN.RemoveCurrent();
-            //    return;
-            //}
+            DataRowView drv = (DataRowView)bds_PN[bds_PN.Position];
+            String maNhanVien = drv["MANV"].ToString();
+            if (Program.username != maNhanVien)
+            {
+                MessageBox.Show("Bạn không thêm chi tiết phiếu nhập trên phiếu không phải do mình tạo", "Thông báo", MessageBoxButtons.OK);
+                bds_CTPN.RemoveCurrent();
+                return;
+            }
 
             txtMAPN_CTPN.Text = ((DataRowView)bds_PN[bds_PN.Position])["MAPN"].ToString();
 
@@ -213,7 +213,7 @@ namespace QLVT
             btnThem.Enabled = btnHieuChinh.Enabled = btnXoa.Enabled = btnReload.Enabled = btnThoat.Enabled = false;
             txtMAPN_CTPN.Enabled = false;
             contextThem.Enabled = contextXoa.Enabled = false;
-            //cmbMAVT.DropDownStyle = ComboBoxStyle.DropDownList;
+            btnGhi.Enabled = btnPhucHoi.Enabled = true;
         }
 
         private void contextXoa_Click(object sender, EventArgs e)
@@ -232,10 +232,10 @@ namespace QLVT
             }
             if (contextDangThemMoi == true)
             {
-                {
-                    bds_CTPN.RemoveCurrent();
+                
+                    
                     contextDangThemMoi = false;
-                }
+                
             }
             bds_PN.Position = vitri;
 
@@ -320,6 +320,22 @@ namespace QLVT
             return true;
         }
 
+        private void capNhatSoLuongVatTu(string maVT, int soLuong)
+        {
+            try
+            {
+                string cmd = "EXEC SP_CapNhatSoLuongNhapVatTu " + maVT + ", " + soLuong;
+                Program.ExecSqlNonQuery(cmd);
+                MessageBox.Show("Cập nhật số lượng vật tư thành công !", "Thông báo", MessageBoxButtons.OK);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi cập nhật số lượng vật tư. " + "\r\n" + ex.Message + "\r\n" + ex.Source);               
+                return;
+            }
+        }
+
         private void btnGhi_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             bool ketQua = kiemTraDuLieuDauVao();
@@ -355,45 +371,72 @@ namespace QLVT
 
             if (result == 1 && viTriConTro != viTriMAPN)
             {
-                MessageBox.Show("Mã số phiếu nhập này đã được sử dụng !", "Thông báo", MessageBoxButtons.OK);
+                MessageBox.Show("Mã phiếu nhập này đã tồn tại !", "Thông báo", MessageBoxButtons.OK);
                 return;
             }
 
-            try
+            if(dangThemMoi == true)
             {
-                if (dangThemMoi == true)
+                try
                 {
                     bds_PN.EndEdit();
                     bds_PN.ResetCurrentItem();
                     dangThemMoi = false;
+
+                    this.phieuNhapTableAdapter.Connection.ConnectionString = Program.connstr;
+                    this.phieuNhapTableAdapter.Update(this.DS.PhieuNhap);
+
+                    this.CTPNTableAdapter.Connection.ConnectionString = Program.connstr;
+                    this.CTPNTableAdapter.Update(this.DS.CTPN);
+                    MessageBox.Show("Ghi phiếu nhập thành công !", "Thông báo", MessageBoxButtons.OK);
+
+                    gc_PN.Enabled = gc_CTPN.Enabled = true;
+                    panelNhapLieuPN.Enabled = panelNhapLieuCTPN.Enabled = false;
+                    btnThem.Enabled = btnXoa.Enabled = btnHieuChinh.Enabled = btnGhi.Enabled = btnReload.Enabled = btnThoat.Enabled = btnPhucHoi.Enabled = true;
+                    
+                    contextThem.Enabled = contextXoa.Enabled = true;
+
                 }
-                if (contextDangThemMoi == true)
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi Ghi phiếu nhập. " + "\r\n" + ex.Message + "\r\n" + ex.Source);
+                    bds_PN.RemoveCurrent();
+                    return;
+                }
+            }
+
+            if (contextDangThemMoi == true)
+            {
+                try
                 {
                     bds_CTPN.EndEdit();
                     //bds_CT_DDH.ResetCurrentItem();
                     contextDangThemMoi = false;
+
+                    this.phieuNhapTableAdapter.Connection.ConnectionString = Program.connstr;
+                    this.phieuNhapTableAdapter.Update(this.DS.PhieuNhap);
+
+                    this.CTPNTableAdapter.Connection.ConnectionString = Program.connstr;
+                    this.CTPNTableAdapter.Update(this.DS.CTPN);
+                    MessageBox.Show("Ghi chi tiết phiếu nhập thành công !", "Thông báo", MessageBoxButtons.OK);
+
+                    gc_PN.Enabled = gc_CTPN.Enabled = true;
+                    panelNhapLieuPN.Enabled = panelNhapLieuCTPN.Enabled = false;
+                    btnThem.Enabled = btnXoa.Enabled = btnHieuChinh.Enabled = btnGhi.Enabled = btnReload.Enabled = btnThoat.Enabled = btnPhucHoi.Enabled = true;
+                    
+                    contextThem.Enabled = contextXoa.Enabled = true;
+
+                    capNhatSoLuongVatTu(txtMAVT.Text, int.Parse(txtSoLuong.Text));
                 }
-
-                this.phieuNhapTableAdapter.Connection.ConnectionString = Program.connstr;
-                this.phieuNhapTableAdapter.Update(this.DS.PhieuNhap);
-
-                this.CTPNTableAdapter.Connection.ConnectionString = Program.connstr;
-                this.CTPNTableAdapter.Update(this.DS.CTPN);
-                MessageBox.Show("Ghi phiếu nhập thành công !", "Thông báo", MessageBoxButtons.OK);
-
-                gc_PN.Enabled = gc_CTPN.Enabled = true;
-                panelNhapLieuPN.Enabled = panelNhapLieuCTPN.Enabled = false;
-                btnThem.Enabled = btnXoa.Enabled = btnHieuChinh.Enabled = btnGhi.Enabled = btnReload.Enabled = btnThoat.Enabled = btnPhucHoi.Enabled = true;
-                //cmbKho.DropDownStyle = ComboBoxStyle.DropDown;
-                //cmbMANV.Enabled = false;
-                contextThem.Enabled = contextXoa.Enabled = true;
-
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi Ghi chi tiết phiếu nhập. " + "\r\n" + ex.Message + "\r\n" + ex.Source);
+                    bds_CTPN.RemoveCurrent();
+                    return;
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi Ghi phiếu nhập. " + "\r\n" + ex.Message + "\r\n" + ex.Source);
-                return;
-            }
+
+            
         }
 
         private void txtMAKHO_EditValueChanged(object sender, EventArgs e)
@@ -408,8 +451,7 @@ namespace QLVT
 
         private void btnChonCTDDH_Click(object sender, EventArgs e)
         {
-            frmChonCTDDH frm = new frmChonCTDDH();
-
+            
             List<DataRowView> selectedRows = new List<DataRowView>();
             foreach (DataRowView drv in bds_CT_DDH)
             {
@@ -426,11 +468,57 @@ namespace QLVT
                 selectedDataTable.ImportRow(drv.Row);
             }
 
-            // Đổ danh sách MAPN vào ComboBox (hoặc ListBox) trên frmChonCTDDH
-            frm.gcChonCTDDH.DataSource = selectedDataTable;
+            frmChonCTDDH frm = new frmChonCTDDH(selectedDataTable);
+            
 
             // Hiển thị form
-            frm.Show();
+            frm.ShowDialog();
+            txtSoLuong.Text = Program.chonSoLuong;
+            txtDonGia.Text = Program.chonDonGia;
+            cmbTenVT.Text = Program.chonTenVT;
+        }
+
+        private void btnXoa_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            if (bds_CTPN.Count > 0)
+            {
+                MessageBox.Show("Không thể xóa phiếu nhập này vì có chi tiết phiếu nhập", "Thông báo", MessageBoxButtons.OK);
+                return;
+            }
+            if (MessageBox.Show("Bạn có thật sự muốn xóa phiếu nhập này không ?? ", "Xác nhận", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                try
+                {
+
+                    vitri = bds_PN.Position;
+                    bds_PN.RemoveCurrent();
+
+
+                    this.phieuNhapTableAdapter.Connection.ConnectionString = Program.connstr;
+                    this.phieuNhapTableAdapter.Update(this.DS.PhieuNhap);
+
+                    this.CTPNTableAdapter.Connection.ConnectionString = Program.connstr;
+                    this.CTPNTableAdapter.Update(this.DS.CTPN);
+
+                    MessageBox.Show("Xóa thành công ", "Thông báo", MessageBoxButtons.OK);
+
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show("Lỗi xóa phiếu nhập. Lỗi: \n" + ex.Message, "Thông báo", MessageBoxButtons.OK);
+                    this.phieuNhapTableAdapter.Connection.ConnectionString = Program.connstr;
+                    this.phieuNhapTableAdapter.Update(this.DS.PhieuNhap);
+
+                    this.CTPNTableAdapter.Connection.ConnectionString = Program.connstr;
+                    this.CTPNTableAdapter.Update(this.DS.CTPN);
+
+                    bds_PN.Position = vitri;
+
+                    return;
+                }
+            }
+            if (bds_PN.Count == 0) btnXoa.Enabled = false;
         }
     }
 }

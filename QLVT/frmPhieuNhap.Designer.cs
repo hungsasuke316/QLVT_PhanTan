@@ -303,6 +303,7 @@
             this.btnXoa.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnXoa.ImageOptions.Image")));
             this.btnXoa.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnXoa.ImageOptions.LargeImage")));
             this.btnXoa.Name = "btnXoa";
+            this.btnXoa.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnXoa_ItemClick);
             // 
             // btnPhucHoi
             // 
@@ -562,6 +563,7 @@
             // 
             // txtHOTEN
             // 
+            this.txtHOTEN.Enabled = false;
             this.txtHOTEN.Location = new System.Drawing.Point(203, 146);
             this.txtHOTEN.Name = "txtHOTEN";
             this.txtHOTEN.Size = new System.Drawing.Size(194, 23);
@@ -591,6 +593,7 @@
             // txtMANV
             // 
             this.txtMANV.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bds_PN, "MANV", true));
+            this.txtMANV.Enabled = false;
             this.txtMANV.Location = new System.Drawing.Point(114, 146);
             this.txtMANV.MenuManager = this.barManager1;
             this.txtMANV.Name = "txtMANV";
@@ -676,7 +679,7 @@
             this.gc_CTPN.MainView = this.gridView2;
             this.gc_CTPN.MenuManager = this.barManager1;
             this.gc_CTPN.Name = "gc_CTPN";
-            this.gc_CTPN.Size = new System.Drawing.Size(715, 146);
+            this.gc_CTPN.Size = new System.Drawing.Size(715, 198);
             this.gc_CTPN.TabIndex = 8;
             this.gc_CTPN.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView2});
@@ -744,9 +747,9 @@
             this.panelNhapLieuCTPN.Controls.Add(mAPNLabel1);
             this.panelNhapLieuCTPN.Controls.Add(this.txtMAPN_CTPN);
             this.panelNhapLieuCTPN.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelNhapLieuCTPN.Location = new System.Drawing.Point(493, 463);
+            this.panelNhapLieuCTPN.Location = new System.Drawing.Point(493, 515);
             this.panelNhapLieuCTPN.Name = "panelNhapLieuCTPN";
-            this.panelNhapLieuCTPN.Size = new System.Drawing.Size(715, 148);
+            this.panelNhapLieuCTPN.Size = new System.Drawing.Size(715, 96);
             this.panelNhapLieuCTPN.TabIndex = 9;
             // 
             // btnChonCTDDH
@@ -765,6 +768,7 @@
             this.cmbTenVT.DataSource = this.bds_VatTu;
             this.cmbTenVT.DisplayMember = "TENVT";
             this.cmbTenVT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTenVT.Enabled = false;
             this.cmbTenVT.FormattingEnabled = true;
             this.cmbTenVT.Location = new System.Drawing.Point(161, 63);
             this.cmbTenVT.Name = "cmbTenVT";
@@ -791,6 +795,7 @@
             // txtDonGia
             // 
             this.txtDonGia.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bds_CTPN, "DONGIA", true));
+            this.txtDonGia.Enabled = false;
             this.txtDonGia.Location = new System.Drawing.Point(492, 64);
             this.txtDonGia.MenuManager = this.barManager1;
             this.txtDonGia.Name = "txtDonGia";
@@ -803,6 +808,7 @@
             // txtSoLuong
             // 
             this.txtSoLuong.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bds_CTPN, "SOLUONG", true));
+            this.txtSoLuong.Enabled = false;
             this.txtSoLuong.Location = new System.Drawing.Point(492, 9);
             this.txtSoLuong.MenuManager = this.barManager1;
             this.txtSoLuong.Name = "txtSoLuong";

@@ -49,6 +49,10 @@ namespace QLVT
         //Lấy thông tin của DDH
         public static String chonMasoDDH;
         public static String chonTenKho;
+        //Lấy thông tin chi tiết DDH
+        public static String chonTenVT;
+        public static String chonSoLuong;
+        public static String chonDonGia;        
 
         public static BindingSource bds_dspm = new BindingSource();
         public static frmMain frmChinh;
@@ -107,8 +111,8 @@ namespace QLVT
             SqlCommand sqlcmd = new SqlCommand(strLenh, Program.conn);
             sqlcmd.CommandType = CommandType.Text;
             sqlcmd.CommandTimeout = 600;
-            if (Program.conn != null && Program.conn.State == ConnectionState.Open)
-                Program.conn.Close();
+            if (Program.conn != null && Program.conn.State == ConnectionState.Closed)
+                Program.conn.Open();
             try
             {
                 sqlcmd.ExecuteNonQuery(); conn.Close();

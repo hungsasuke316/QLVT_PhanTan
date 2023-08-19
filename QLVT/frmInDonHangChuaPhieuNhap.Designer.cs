@@ -47,6 +47,15 @@
             label1.TabIndex = 6;
             label1.Text = "In Đơn Hàng Chưa Phiếu Nhập";
             // 
+            // mACNLabel
+            // 
+            mACNLabel.AutoSize = true;
+            mACNLabel.Location = new System.Drawing.Point(132, 158);
+            mACNLabel.Name = "mACNLabel";
+            mACNLabel.Size = new System.Drawing.Size(68, 16);
+            mACNLabel.TabIndex = 7;
+            mACNLabel.Text = "Chi Nhánh";
+            // 
             // btnThoat
             // 
             this.btnThoat.Location = new System.Drawing.Point(383, 228);
@@ -80,15 +89,6 @@
             this.cmbChiNhanh.TabIndex = 8;
             this.cmbChiNhanh.SelectedIndexChanged += new System.EventHandler(this.cmbChiNhanh_SelectedIndexChanged);
             // 
-            // mACNLabel
-            // 
-            mACNLabel.AutoSize = true;
-            mACNLabel.Location = new System.Drawing.Point(132, 158);
-            mACNLabel.Name = "mACNLabel";
-            mACNLabel.Size = new System.Drawing.Size(68, 16);
-            mACNLabel.TabIndex = 7;
-            mACNLabel.Text = "Chi Nhánh";
-            // 
             // frmInDonHangChuaPhieuNhap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -101,6 +101,7 @@
             this.Controls.Add(label1);
             this.Name = "frmInDonHangChuaPhieuNhap";
             this.Text = "frmInDonHangChuaPhieuNhap";
+            this.Load += new System.EventHandler(this.frmInDonHangChuaPhieuNhap_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
