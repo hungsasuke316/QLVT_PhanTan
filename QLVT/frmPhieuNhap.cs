@@ -192,8 +192,9 @@ namespace QLVT
 
         private void contextThem_Click(object sender, EventArgs e)
         {
-            
-            
+
+            gc_CTPN.Focus();
+            vitri = bds_CTPN.Position;
             bds_CTPN.AddNew();
             contextDangThemMoi = true;
 
@@ -229,15 +230,17 @@ namespace QLVT
             {
                 bds_PN.RemoveCurrent();
                 dangThemMoi = false;
+                bds_PN.Position = vitri;
             }
             if (contextDangThemMoi == true)
             {
-                
-                    
-                    contextDangThemMoi = false;
-                
+
+                bds_CTPN.RemoveCurrent();
+                contextDangThemMoi = false;
+                bds_CTPN.Position = vitri;
+
             }
-            bds_PN.Position = vitri;
+            
 
             gc_PN.Enabled = gc_CTPN.Enabled = true;
             panelNhapLieuPN.Enabled = panelNhapLieuCTPN.Enabled = false;
