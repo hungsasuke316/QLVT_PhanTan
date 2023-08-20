@@ -71,7 +71,7 @@
             // 
             // ribMain
             // 
-            this.ribMain.EmptyAreaImageOptions.ImagePadding = new System.Windows.Forms.Padding(150, 139, 150, 139);
+            this.ribMain.EmptyAreaImageOptions.ImagePadding = new System.Windows.Forms.Padding(187, 174, 187, 174);
             this.ribMain.ExpandCollapseItem.Id = 0;
             this.ribMain.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.ribMain.ExpandCollapseItem,
@@ -91,10 +91,10 @@
             this.btnDDH,
             this.btnKho});
             this.ribMain.Location = new System.Drawing.Point(0, 0);
-            this.ribMain.Margin = new System.Windows.Forms.Padding(19, 15, 19, 15);
+            this.ribMain.Margin = new System.Windows.Forms.Padding(24, 19, 24, 19);
             this.ribMain.MaxItemId = 18;
             this.ribMain.Name = "ribMain";
-            this.ribMain.OptionsMenuMinWidth = 1677;
+            this.ribMain.OptionsMenuMinWidth = 2096;
             this.ribMain.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.rib_HeThong,
             this.rib_DanhMuc,
@@ -223,6 +223,7 @@
             this.btnKho.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnKho.ImageOptions.Image")));
             this.btnKho.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnKho.ImageOptions.LargeImage")));
             this.btnKho.Name = "btnKho";
+            this.btnKho.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnKho_ItemClick);
             // 
             // rib_HeThong
             // 
