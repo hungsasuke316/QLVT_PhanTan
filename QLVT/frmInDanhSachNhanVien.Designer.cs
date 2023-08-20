@@ -28,20 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Label mACNLabel;
             System.Windows.Forms.Label label1;
-            this.DS = new QLVT.DS();
-            this.bdsNV = new System.Windows.Forms.BindingSource(this.components);
-            this.nhanVienTableAdapter = new QLVT.DSTableAdapters.NhanVienTableAdapter();
-            this.tableAdapterManager = new QLVT.DSTableAdapters.TableAdapterManager();
             this.cmbChiNhanh = new System.Windows.Forms.ComboBox();
             this.btnPreview = new System.Windows.Forms.Button();
             this.btnThoat = new System.Windows.Forms.Button();
             mACNLabel = new System.Windows.Forms.Label();
             label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.DS)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bdsNV)).BeginInit();
             this.SuspendLayout();
             // 
             // mACNLabel
@@ -63,42 +56,10 @@
             label1.TabIndex = 5;
             label1.Text = "In Danh Sách Nhân Viên";
             // 
-            // DS
-            // 
-            this.DS.DataSetName = "DS";
-            this.DS.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // bdsNV
-            // 
-            this.bdsNV.DataMember = "NhanVien";
-            this.bdsNV.DataSource = this.DS;
-            // 
-            // nhanVienTableAdapter
-            // 
-            this.nhanVienTableAdapter.ClearBeforeFill = true;
-            // 
-            // tableAdapterManager
-            // 
-            this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
-            this.tableAdapterManager.ChiNhanhTableAdapter = null;
-            this.tableAdapterManager.CTDDHTableAdapter = null;
-            this.tableAdapterManager.CTPNTableAdapter = null;
-            this.tableAdapterManager.CTPXTableAdapter = null;
-            this.tableAdapterManager.DatHangTableAdapter = null;
-            this.tableAdapterManager.KhoTableAdapter = null;
-            this.tableAdapterManager.NhanVienTableAdapter = this.nhanVienTableAdapter;
-            this.tableAdapterManager.PhieuNhapTableAdapter = null;
-            this.tableAdapterManager.PhieuXuatTableAdapter = null;
-            this.tableAdapterManager.UpdateOrder = QLVT.DSTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
-            this.tableAdapterManager.VattuTableAdapter = null;
-            // 
             // cmbChiNhanh
             // 
             this.cmbChiNhanh.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbChiNhanh.FormattingEnabled = true;
-            this.cmbChiNhanh.Items.AddRange(new object[] {
-            "Chi Nhánh 1",
-            "Chi Nhánh 2"});
             this.cmbChiNhanh.Location = new System.Drawing.Point(235, 96);
             this.cmbChiNhanh.Name = "cmbChiNhanh";
             this.cmbChiNhanh.Size = new System.Drawing.Size(215, 24);
@@ -138,19 +99,12 @@
             this.Name = "frmInDanhSachNhanVien";
             this.Text = "frmInDanhSachNhanVien";
             this.Load += new System.EventHandler(this.frmInDanhSachNhanVien_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.DS)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bdsNV)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private DS DS;
-        private System.Windows.Forms.BindingSource bdsNV;
-        private DSTableAdapters.NhanVienTableAdapter nhanVienTableAdapter;
-        private DSTableAdapters.TableAdapterManager tableAdapterManager;
         private System.Windows.Forms.ComboBox cmbChiNhanh;
         private System.Windows.Forms.Button btnPreview;
         private System.Windows.Forms.Button btnThoat;

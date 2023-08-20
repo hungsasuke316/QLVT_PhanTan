@@ -12,15 +12,14 @@ using System.Windows.Forms;
 
 namespace QLVT
 {
-    public partial class frmInDonHangChuaPhieuNhap : Form
+    public partial class frmInTongHopNhatXuat : Form
     {
         private SqlConnection conn_publisher = new SqlConnection();
         
-        public frmInDonHangChuaPhieuNhap()
+        public frmInTongHopNhatXuat()
         {
             InitializeComponent();
         }
-
 
         private void LayDSPM(String cmd)
         {
@@ -78,14 +77,28 @@ namespace QLVT
             }
             else
             {
-                
+
             }
         }
 
         private void btnPreview_Click(object sender, EventArgs e)
         {
-            Xrpt_DonHangChuaPhieuNhap rpt = new Xrpt_DonHangChuaPhieuNhap();
-            rpt.lblTieuDe.Text = "ĐƠN HÀNG KHÔNG PHIẾU NHẬP " + cmbChiNhanh.Text.ToUpper();
+            DateTime tuNgay = (DateTime)fromDate.DateTime;
+            DateTime denNgay = (DateTime)toDate.DateTime;
+            if (tuNgay == DateTime.MinValue)
+            {
+                MessageBox.Show("Không được bỏ trống ngày bắt đầu", "Thông báo", MessageBoxButtons.OK);
+                return;
+            }
+            if (denNgay == DateTime.MinValue)
+            {
+                MessageBox.Show("Không được bỏ trống ngày kết thúc", "Thông báo", MessageBoxButtons.OK);
+                return;
+            }
+            string formatFromDate = tuNgay.ToString("dd/MM/yyyy");
+            string formatToDate = denNgay.ToString("dd/MM/yyyy");
+            Xrpt_TongHopNhapXuat rpt = new Xrpt_TongHopNhapXuat(tuNgay, denNgay);
+            rpt.lblTieuDe.Text = "TỔNG HỢP NHẬP XUẤT " + "TỪ " + formatFromDate + " ĐẾN " + formatToDate + " TẠI " + cmbChiNhanh.Text.ToUpper();
 
             ReportPrintTool print = new ReportPrintTool(rpt);
             print.ShowPreviewDialog();
@@ -96,7 +109,7 @@ namespace QLVT
             this.Close();
         }
 
-        private void frmInDonHangChuaPhieuNhap_Load(object sender, EventArgs e)
+        private void frmInTongHopNhatXuat_Load(object sender, EventArgs e)
         {
             if (KetNoi_CSDLGOC() == 0) return;
             LayDSPM("SELECT * FROM Get_Subscribes");
@@ -109,6 +122,21 @@ namespace QLVT
             {
                 cmbChiNhanh.Enabled = false;
             }
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateEdit2_EditValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -196,5 +196,17 @@ namespace QLVT
                 f.Show();
             }
         }
+
+        private void btnTongHopNhapXuat_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            Form frm = this.CheckExists(typeof(frmInTongHopNhatXuat));
+            if (frm != null) frm.Activate();
+            else
+            {
+                frmInTongHopNhatXuat f = new frmInTongHopNhatXuat();
+                f.MdiParent = this;
+                f.Show();
+            }
+        }
     }
 }

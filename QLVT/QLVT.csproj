@@ -126,6 +126,12 @@
     <Compile Include="frmInDonHangChuaPhieuNhap.Designer.cs">
       <DependentUpon>frmInDonHangChuaPhieuNhap.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmInTongHopNhatXuat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmInTongHopNhatXuat.Designer.cs">
+      <DependentUpon>frmInTongHopNhatXuat.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -164,11 +170,17 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Xrpt_DanhSachNhanVien.cs">
+    <Compile Include="Xrpt_DSNhanVien.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Xrpt_DanhSachNhanVien.Designer.cs">
-      <DependentUpon>Xrpt_DanhSachNhanVien.cs</DependentUpon>
+    <Compile Include="Xrpt_DSNhanVien.Designer.cs">
+      <DependentUpon>Xrpt_DSNhanVien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Xrpt_TongHopNhapXuat.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Xrpt_TongHopNhapXuat.Designer.cs">
+      <DependentUpon>Xrpt_TongHopNhapXuat.cs</DependentUpon>
     </Compile>
     <Compile Include="Xrpt_DonHangChuaPhieuNhap.cs">
       <SubType>Component</SubType>
@@ -200,6 +212,9 @@
     <EmbeddedResource Include="frmInDonHangChuaPhieuNhap.resx">
       <DependentUpon>frmInDonHangChuaPhieuNhap.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmInTongHopNhatXuat.resx">
+      <DependentUpon>frmInTongHopNhatXuat.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -228,8 +243,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Xrpt_DanhSachNhanVien.resx">
-      <DependentUpon>Xrpt_DanhSachNhanVien.cs</DependentUpon>
+    <EmbeddedResource Include="Xrpt_DSNhanVien.resx">
+      <DependentUpon>Xrpt_DSNhanVien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Xrpt_TongHopNhapXuat.resx">
+      <DependentUpon>Xrpt_TongHopNhapXuat.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Xrpt_DonHangChuaPhieuNhap.resx">
       <DependentUpon>Xrpt_DonHangChuaPhieuNhap.cs</DependentUpon>
