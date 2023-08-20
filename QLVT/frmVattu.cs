@@ -72,6 +72,7 @@ namespace QLVT
             vitri = bdsVattu.Position;
             pcInput.Enabled = true;
             txtMaVT.Enabled = true;
+            txtMaVT.Focus();
             bdsVattu.AddNew();
 
             btnThem.Enabled = btnHieuChinh.Enabled = btnXoa.Enabled = btnReload.Enabled = btnThoat.Enabled = false;
@@ -84,6 +85,7 @@ namespace QLVT
             vitri = bdsVattu.Position;
             pcInput.Enabled = true;
             txtMaVT.Enabled = false;
+            txtTenVT.Focus();
 
             btnThem.Enabled = btnHieuChinh.Enabled = btnXoa.Enabled = btnReload.Enabled = btnThoat.Enabled = false;
             btnGhi.Enabled = btnPhucHoi.Enabled = true;
@@ -113,7 +115,7 @@ namespace QLVT
                 return false;
             }
 
-            if (Regex.IsMatch(txtMaVT.Text, @"^[a-zA-Z0-9]+$") == false)
+            if (!Regex.IsMatch(txtMaVT.Text, @"^[a-zA-Z0-9]+$"))
             {
                 MessageBox.Show("Mã vật tư chỉ có chữ cái và số!", "Thông báo", MessageBoxButtons.OK);
                 txtMaVT.Focus();
@@ -150,7 +152,7 @@ namespace QLVT
                 return false;
             }
 
-            if (slt < 0)
+            if (slt <= 0)
             {
                 MessageBox.Show("Số lượng tồn không thể là số nhỏ hơn 0!", "Thông báo", MessageBoxButtons.OK);
                 txtSLT.Focus();
@@ -172,15 +174,16 @@ namespace QLVT
             {
                 try
                 {
-                    String cmd = "EXEC sp_KiemTraMaVT " + txtMaVT.Text;
+                    String cmd = "declare @result int exec @result = sp_KiemTraMaVT " + txtMaVT.Text + " select @result";
                     Program.myReader = Program.ExecSqlDataReader(cmd);
 
                     if (Program.myReader == null) return;
 
-                    bool result = Program.myReader.Read();
+                    Program.myReader.Read();
+                    int result = int.Parse(Program.myReader.GetValue(0).ToString());
                     Program.myReader.Close();
 
-                    if (result)
+                    if (result > 0)
                     {
                         MessageBox.Show("Mã vật tư này đã được sử dụng!", "Thông báo", MessageBoxButtons.OK);
                         return;
@@ -234,6 +237,31 @@ namespace QLVT
             if (bdsCTTDH.Count > 0)
             {
                 MessageBox.Show("Vật tư đã có trong chi tiết đơn đặt hàng. Không thể xóa!", "", MessageBoxButtons.OK);
+                return;
+            }
+
+            try
+            {
+                String cmd = "declare @result int exec @result = sp_KiemTraVTDaDung " + txtMaVT.Text + " select @result";
+                Program.myReader = Program.ExecSqlDataReader(cmd);
+
+                if (Program.myReader == null) return;
+
+                Program.myReader.Read();
+                int result = int.Parse(Program.myReader.GetValue(0).ToString());
+                Program.myReader.Close();
+
+                if (result > 0)
+                {
+                    MessageBox.Show("Vật tư này đã được sử dụng ở chi nhánh khác. Không thể xóa!", "Thông báo", MessageBoxButtons.OK);
+                    return;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Thực thi database thất bại!\n\n" + ex.Message, "Thông báo",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

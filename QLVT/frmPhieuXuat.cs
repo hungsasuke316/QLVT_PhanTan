@@ -70,9 +70,6 @@ namespace QLVT
         private void frmPhieuXuat_Load(object sender, EventArgs e)
         {
             
-            // TODO: This line of code loads data into the 'DS.NhanVien' table. You can move, or remove it, as needed.
-            //this.nhanVienTableAdapter.Fill(this.DS.NhanVien);
-
             DS.EnforceConstraints = false;
 
             // TODO: This line of code loads data into the 'dS.PhieuXuat' table. You can move, or remove it, as needed.
@@ -100,18 +97,21 @@ namespace QLVT
             {
                 cbChiNhanh.Enabled = true;
                 btnThem.Enabled = btnHieuChinh.Enabled = btnXoa.Enabled = false;
+                gcCTPX.Enabled = true;
             }
             else
             {
                 cbChiNhanh.Enabled = false;
                 btnThem.Enabled = btnHieuChinh.Enabled = true;
+                gcCTPX.Enabled = false;
                 if (bdsPhieuXuat.Count == 0) btnXoa.Enabled = false;
             }
 
             // Vì chưa thực thi nên không cần Ghi hay Phục hồi
             btnGhi.Enabled = btnPhucHoi.Enabled = false;
-            //
-            pcInputPX.Enabled = gcCTPX.Enabled = pcCTPX.Enabled = false;
+            
+            pcInputPX.Enabled = pcCTPX.Enabled = false;
+            btnContextThem.Enabled = btnContextXoa.Enabled = false;
 
         }
 
@@ -171,11 +171,13 @@ namespace QLVT
             txtMaPX.Enabled = true;
             bdsPhieuXuat.AddNew();
 
+            txtMaPX.Focus();
             txtMaNV.Text = Program.username;
             cbKho.SelectedIndex = 1;
 
             btnThem.Enabled = btnHieuChinh.Enabled = btnXoa.Enabled = btnReload.Enabled = btnThoat.Enabled = false;
             btnGhi.Enabled = btnPhucHoi.Enabled = true;
+            btnContextThem.Enabled = btnContextXoa.Enabled = false;
             gcPhieuXuat.Enabled = false;
             gcCTPX.Enabled = true;
         }
@@ -188,6 +190,7 @@ namespace QLVT
 
             btnThem.Enabled = btnHieuChinh.Enabled = btnXoa.Enabled = btnReload.Enabled = btnThoat.Enabled = false;
             btnGhi.Enabled = btnPhucHoi.Enabled = true;
+            btnContextThem.Enabled = btnContextXoa.Enabled = true;
             gcPhieuXuat.Enabled = false;
             gcCTPX.Enabled = true;
         }
@@ -242,6 +245,7 @@ namespace QLVT
                     gcPhieuXuat.Enabled = true;
                     btnThem.Enabled = btnHieuChinh.Enabled = btnXoa.Enabled = btnReload.Enabled = btnThoat.Enabled = true;
                     btnGhi.Enabled = btnPhucHoi.Enabled = false;
+                    btnContextThem.Enabled = btnContextXoa.Enabled = false;
                 }
                 catch (Exception ex)
                 {
@@ -250,7 +254,66 @@ namespace QLVT
                 }
             }
 
-            
+            if (pcCTPX.Enabled)
+            {
+                if (!checkInputCTPX()) return;
+
+                try
+                {
+                    String cmd = "Exec sp_LaySlt " + txtMaVT.Text;
+                    Program.myReader = Program.ExecSqlDataReader(cmd);
+
+                    if (Program.myReader == null) return;
+
+                    Program.myReader.Read();
+                    int result = int.Parse(Program.myReader.GetValue(0).ToString());
+                    //int result = int.Parse();
+
+                    Program.myReader.Close();
+
+                    int sl = int.Parse(txtSoLuong.Text);
+
+                    if (sl > result)
+                    {
+                        MessageBox.Show("Số lượng vượt quá số lượng tồn!", "Thông báo", MessageBoxButtons.OK);
+                        return;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Thực thi database thất bại!\n\n" + ex.Message, "Thông báo",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Program.myReader.Close();
+                    return;
+                }
+
+                try
+                {
+                    bdsCTPX.EndEdit();
+                    bdsCTPX.ResetCurrentItem();
+
+                    this.phieuXuatTableAdapter.Connection.ConnectionString = Program.connstr;
+                    this.phieuXuatTableAdapter.Update(this.DS.PhieuXuat);
+
+                    string cmd = "Exec sp_CapNhatSoLuongDonXuat " + txtMaVT.Text + ", " + txtSoLuong.Text;
+                    Program.myReader = Program.ExecSqlDataReader(cmd);
+                    if (Program.myReader == null) return;
+                    Program.myReader.Read();
+                    Program.myReader.Close();
+
+                    MessageBox.Show("Ghi thành công ", "Thông báo", MessageBoxButtons.OK);
+
+                    btnContextThem.Enabled = btnContextXoa.Enabled = true;
+                    pcCTPX.Enabled = false;
+                    pcInputPX.Enabled = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi Ghi chi tiết phiếu xuất. " + "\r\n" + ex.Message + "\r\n" + ex.Source);
+                    return;
+                }
+            }
 
 
         }
@@ -302,6 +365,47 @@ namespace QLVT
             return true;
         }
 
+        private bool checkInputCTPX ()
+        {
+            bool result = false;
+
+            // Kiểm tra số lượng
+            result = int.TryParse(txtSoLuong.Text, out int sl);
+
+            if (!result)
+            {
+                MessageBox.Show("Số lượng xuất không thể bỏ trống và là một chữ số!", "Thông báo", MessageBoxButtons.OK);
+                txtSoLuong.Focus();
+                return false;
+            }
+
+            if (sl < 0)
+            {
+                MessageBox.Show("Số lượng xuất phải lớn hơn 0!", "Thông báo", MessageBoxButtons.OK);
+                txtSoLuong.Focus();
+                return false;
+            }
+
+            // Kiểm tra đơn giá
+            result = int.TryParse(txtDonGia.Text, out int dg);
+
+            if (!result)
+            {
+                MessageBox.Show("Đơn giá không thể bỏ trống và là một chữ số!", "Thông báo", MessageBoxButtons.OK);
+                txtDonGia.Focus();
+                return false;
+            }
+
+            if (dg < 0)
+            {
+                MessageBox.Show("Đơn giá phải lớn hơn 0!", "Thông báo", MessageBoxButtons.OK);
+                txtDonGia.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
         private void btnXoa_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             if (bdsCTPX.Count > 0)
@@ -343,19 +447,26 @@ namespace QLVT
                 bdsPhieuXuat.CancelEdit();
                 this.phieuXuatTableAdapter.Fill(this.DS.PhieuXuat);
 
-                if (txtMaPX.Enabled)
-                {
-                    bdsPhieuXuat.Position = vitri;
-                }
+                bdsPhieuXuat.Position = vitri;
 
                 pcInputPX.Enabled = false;
                 gcPhieuXuat.Enabled = true;
                 gcCTPX.Enabled = false;
                 btnThem.Enabled = btnXoa.Enabled = btnHieuChinh.Enabled = btnReload.Enabled = btnThoat.Enabled = true;
                 btnGhi.Enabled = btnPhucHoi.Enabled = false;
+                btnContextThem.Enabled = btnContextXoa.Enabled = false;
             }
 
-            
+            if (pcCTPX.Enabled)
+            {
+                bdsCTPX.CancelEdit();
+                bdsCTPX.RemoveCurrent();
+
+                pcCTPX.Enabled = false;
+                pcInputPX.Enabled = true;
+                gcPhieuXuat.Focus();
+                btnContextThem.Enabled = btnContextXoa.Enabled = true;
+            }
         }
 
         private void btnReload_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -388,9 +499,52 @@ namespace QLVT
         private void btnContextThem_Click(object sender, EventArgs e)
         {
             gcCTPX.Focus();
+            pcInputPX.Enabled = false;
+            pcCTPX.Enabled = true;
+
+            bdsCTPX.AddNew();
+
+            txtMaPXCT.Text = txtMaPX.Text;
+            cbVattu.SelectedIndex = 0;
+            txtSoLuong.Focus();
+
+            btnContextThem.Enabled = btnContextXoa.Enabled = false;
+
         }
 
         private void btnContextXoa_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có thật sự muốn xóa vật tư này không? ", "Xác nhận", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                try
+                {
+                    bdsCTPX.RemoveCurrent();
+
+                    this.phieuXuatTableAdapter.Connection.ConnectionString = Program.connstr;
+                    this.phieuXuatTableAdapter.Update(this.DS.PhieuXuat);
+
+                    MessageBox.Show("Xóa thành công ", "Thông báo", MessageBoxButtons.OK);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi xóa phiếu xuất. \nLỗi: " + ex.Message, "", MessageBoxButtons.OK);
+                    this.phieuXuatTableAdapter.Fill(this.DS.PhieuXuat);
+                    return;
+                }
+            }
+
+            if (bdsCTPX.Count == 0) btnContextXoa.Enabled = false;
+        }
+
+        private void cbVattu_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbVattu.SelectedIndex != -1)
+            {
+                txtMaVT.Text = cbVattu.SelectedValue.ToString();
+            }
+        }
+
+        private void mAPXLabel_Click(object sender, EventArgs e)
         {
 
         }
